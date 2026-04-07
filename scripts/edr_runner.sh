@@ -1,5 +1,9 @@
 #!/bin/zsh
 
-~/port_monitor.sh
-~/process_monitor.sh
-~/file_monitor.sh
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+$SCRIPT_DIR/process_monitor.sh &
+$SCRIPT_DIR/port_monitor.sh &
+$SCRIPT_DIR/file_monitor.sh &
+
+wait

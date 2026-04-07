@@ -3,7 +3,8 @@
 BASELINE="$HOME/.ports_baseline"
 CURRENT="$HOME/.ports_current"
 
-LOGFILE="$HOME/edr.log"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+LOG_FILE="$SCRIPT_DIR/../logs/edr.log"
 TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S")
 
 # Get current listening ports
@@ -25,7 +26,7 @@ if [ -n "$DIFF" ]; then
     echo "$DIFF"
 
     while IFS= read -r port; do
-        echo "{\"timestamp\":\"$TIMESTAMP\",\"type\":\"port\",\"event\":\"port_change\",\"data\":\"$port\"}" >> "$LOGFILE"
+        echo "{\"timestamp\":\"$TIMESTAMP\",\"type\":\"port\",\"event\":\"port_change\",\"data\":\"$port\"}" >> "$LOG_FILE" 
     done <<< "$DIFF"
 
     osascript -e 'display notification "Port change detected" with title "EDR Alert"'

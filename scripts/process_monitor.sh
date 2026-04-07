@@ -3,7 +3,8 @@
 BASELINE="$HOME/.proc_baseline"
 CURRENT="$HOME/.proc_current"
 
-LOGFILE="$HOME/edr.log"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+LOG_FILE="$SCRIPT_DIR/../logs/edr.log"
 TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S")
 
 # Capture full command lines
@@ -50,7 +51,7 @@ if [ -n "$DIFF" ]; then
     echo "$DIFF"
 
     while IFS= read -r proc; do
-        echo "{\"timestamp\":\"$TIMESTAMP\",\"type\":\"process\",\"event\":\"new_process\",\"data\":\"$proc\"}" >> "$LOGFILE"
+        echo "{\"timestamp\":\"$TIMESTAMP\",\"type\":\"process\",\"event\":\"new_process\",\"data\":\"$proc\"}" >> "$LOG_FILE" 
     done <<< "$DIFF"
 
     osascript -e 'display notification "New process detected" with title "EDR Alert"'
